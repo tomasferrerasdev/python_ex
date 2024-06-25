@@ -1,7 +1,11 @@
+"""This module provides a simple CLI todo list application.
+It allows users to add, show, edit, and complete tasks stored in a todo list.
+"""
+
 while True:
     user_action = input("Type add, show, edit, complete or exit: ")
     user_action = user_action.strip()
-    if "add" in user_action:
+    if "add" in user_action or "new" in user_action:
         with open("todos.txt", "r", encoding="utf-8") as file:
             todos = file.readlines()
         todos.append(user_action[4:] + "\n")
