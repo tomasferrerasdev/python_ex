@@ -1,6 +1,10 @@
 import FreeSimpleGUI as sg
 import functions
+import time
 
+sg.theme("NeonGreen1")
+
+clock = sg.Text("", key="clock")
 label = sg.Text("Type in a to-do: ")
 input_box = sg.InputText(tooltip="Enter todo", key="todo")
 add_button = sg.Button("Add", tooltip="Add todo")
@@ -12,6 +16,7 @@ complete_button = sg.Button("Complete", tooltip="Complete todo")
 exit_button = sg.Button("Exit", tooltip="Exit")
 
 layout = [
+    [clock],
     [label],
     [input_box, add_button],
     [list_box, edit_button, complete_button],
@@ -21,7 +26,8 @@ options = ("Helvetica", 12)
 
 window = sg.Window(title="Todo List", layout=layout, font=options)
 while True:
-    event, values = window.read()
+    event, values = window.read(timeout=10)
+    window["clock"].update(value=time.strftime("%Y-%m-%d %H:%M:%S"))
     match event:
         case "Add":
             todos = functions.get_todos()
@@ -29,12 +35,15 @@ while True:
             functions.add_todos(todos)
             window["todos"].update(values=todos)
         case "Complete":
-            todo_to_complete = values["todos"][0]
-            todos = functions.get_todos()
-            todos.remove(todo_to_complete)
-            functions.add_todos(todos)
-            window["todos"].update(values=todos)
-            window["todo"].update(value="")
+            try:
+                todo_to_complete = values["todos"][0]
+                todos = functions.get_todos()
+                todos.remove(todo_to_complete)
+                functions.add_todos(todos)
+                window["todos"].update(values=todos)
+                window["todo"].update(value="")
+            except IndexError:
+                sg.popup("Please select a todo to complete")
         case "Edit":
             try:
                 todo_to_edit = values["todos"][0]
