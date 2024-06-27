@@ -1,4 +1,4 @@
-"""This module provides a simple GUI to zip files."""
+"""This module provides a simple GUI to zip files. BONUS EXAMPLE 166"""
 
 import FreeSimpleGUI as sg
 
