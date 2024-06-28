@@ -1,6 +1,13 @@
-import FreeSimpleGUI as sg
-import functions
+""" GUI for the todo list app """
+
+import os
 import time
+import functions
+import FreeSimpleGUI as sg
+
+if not os.path.exists("todos.txt"):
+    with open("todos.txt", "w", encoding="utf-8") as file:
+        pass
 
 sg.theme("NeonGreen1")
 
