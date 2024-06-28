@@ -7,7 +7,7 @@ import functions as fn
 def add_todo():
     todo = st.session_state["new_todo"] + "\n"
     todos.append(todo)
-    if todo:
+    if todo != "":
         fn.add_todos(todos)
 
 
@@ -17,7 +17,12 @@ st.write("This app is for increasing productivity")
 
 todos = fn.get_todos()
 for todo in todos:
-    st.checkbox(todo)
+    checkbox = st.checkbox(todo, key=todo)
+    if checkbox:
+        todos.remove(todo)
+        fn.add_todos(todos)
+        del st.session_state[todo]
+        st.experimental_rerun()
 
 st.text_input(
     label="Add new todo",
